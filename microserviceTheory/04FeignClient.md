@@ -36,7 +36,7 @@ interface MyFeignClient{
 - Its called declarative style of codeing
 - Feign does the loadbalancing automatically, we have to add the loadbalancer dependency just
 
-Without Eureka
+#### Without Eureka
 Producer				Feign							Consumer
 ```java
 package com.accenture.lkm.controller;
@@ -171,8 +171,54 @@ public interface MyFeignClient {
 ```
 - Here `@FeignClient(name="employee",url="http://localhost:7091/")` if we are register with eureka then the `name` will play a major role if not then the `url` is the important one
 
+#### With Eureka
+```java
+package com.accenture.lkm.client;
 
+import java.util.List;
 
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.accenture.lkm.model.Employee;
+
+@FeignClient(name="feign-employee-producer",decode404=true)
+public interface MyFiegnClient {
+
+	@RequestMapping(value = "/emp/controller/getDetails", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Employee>> findAll();
+
+	@RequestMapping(value = "/emp/controller/getDetailsById/{id}", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> findByEmployeeId(@PathVariable("id") Integer employeeId);
+	
+	@RequestMapping(value="/emp/controller/addEmp",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_HTML_VALUE)
+	public ResponseEntity<String> addEmployee(@RequestBody Employee employee);
+	
+	@RequestMapping(value="/emp/controller/updateEmp",
+			method=RequestMethod.PUT,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee);
+		
+	@RequestMapping(value="/emp/controller/deleteEmp/{id}",
+			method=RequestMethod.DELETE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") int myId);
+}
+
+```
 
 
 
