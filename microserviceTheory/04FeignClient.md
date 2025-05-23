@@ -26,6 +26,7 @@ It's a boiler plate code / imperative style of codeing. Its mean we have to tell
 #### Example:
 Consumer
 ------------
+```java
 @FeignClient(name="cst-employee-producer")		//producer url / name
 interface MyFeignClient{
 
@@ -33,6 +34,7 @@ interface MyFeignClient{
 	ResponseEntity<List<Employee>> findAll();
 
 }
+```
 - Its called declarative style of codeing
 - Feign does the loadbalancing automatically, we have to add the loadbalancer dependency just
 
