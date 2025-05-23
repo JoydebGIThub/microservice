@@ -23,15 +23,19 @@
 ### 1st Design pattern:
 #### Service Registry and Client side service discovery design pattern
 - Let assume we have some Microservice instances and different Ip and post
+
+|Instance		| IP		|
+|-----------------------|---------------|
 |Producer A - instance1|10.4.2.10:8080|
 |Producer A - instance2|10.4.2.11:8081|
 |Producer A - instance3|10.4.2.11:8082|
 |Producer B - instance1|20.4.2.10:9080|
 |Producer B - instance2|20.4.2.11:9081|
+
 - If a client want to send any request to Producer A then it needs to know about `IP` and the `Port`
 - Let assume this microservices are running on `vertualized` and `containerized` enviroments where the no of instances and locations are changes dynamically. In Docker and Kubarnative container it may run the IP and port will be dynamically changes then how the client will know about the IP and the Port that will be a chalanges.
 - So, microservices are mainly run on `vertualized` and `containerized` environment and the no of instances and services and the locations are changes dynamically.
-- How does the client `discover` the location of the microservice which are dynamically changes here we need to use `Service Registry` and `Client site service discovery` design pattern.
+- How does the client `discover` the location of the microservice which are dynamically changes here we need to use **Service Registry** and **Client site service discovery** design pattern.
 
 **Eureka Server** is a `Service Registry` and `Client site service discovery` design pattern **implementations**. 
 - Eureka server is an `applications` that holds informations about the `Client and Service` applications. Every microservice will be `register` to the `Eureka server`, so that `Eureka server` knowns all the microservices running on which port no and IP address all that information will be present in the server.
@@ -42,7 +46,7 @@
 - Now the `Client Application` will also register with `Eureka`, we called it as `Registry aware client`, it means it knows about the `Registry`.
 - If the client now want to connect with the `Producer A - instance1` it goes to the `Service Registry` and from there it knows about the port and IP and will be able to connect with it.
 - When makeing a request to the service the client `optaines` the location of the service instance by querying the `Service registry` which knows the location of all the `service instances`
-
+```
 			|--------		  Producer A - instance1   		10.4.2.10:8080
 			| |--------		Producer A - instance2			10.4.2.11:8081
 			| | |--------	Producer A - instance3			10.4.2.11:8082
@@ -53,14 +57,15 @@
 	|		
 Client
 Registry aware client
-
+```
 ##### Demo:
-		|-----------------Eureka Server------------------------|
-register|s				producer, ip, port					             |
-		|													                             |
-Employee Producer				    calls					          Employee Consumer
-producer, ip, port		<---------------------			consumer, ip, port
-
+```
+		|-----------------Eureka Server-------------------------|
+	register|s		producer, ip, port			|
+		|							|
+Employee Producer			calls			Employee Consumer
+producer, ip, port		<---------------------		consumer, ip, port
+```
 **Eureka server** is working in differnt modes:
 - 
 1. Independent: We will having `1 Eureka server` and all the `microservice` will `register` with that `Eureka server`, we called is as `Independent mode`.
