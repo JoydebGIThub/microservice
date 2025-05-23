@@ -10,13 +10,13 @@
 - The problem here is if one of the `server is stop responding` we have to remove the server manually from the `load balancer IP table`.
 - Load balancer keeps `one IP table`. It has to update the `IP table` manually. So, it required a manually intervension.
 ```
-            Client
-							|
+					Client
+					   |
 					Load Balancer
 					    |
-			|------	IP table---------------|      
-			|		      |                    |
-Service A			Service B						Service C
+				|------	IP table-----------------|      
+				|		|         	 |
+			   Service A	   Service B		Service C
 ```
 ### Client-side load balancer:
 - if the caller/ consumer is calling the producer then the `consumer is responsible for the distribution of the load`.
@@ -26,15 +26,14 @@ Service A			Service B						Service C
 - By default it follows `round robin`.
 - So microservice load balanceing mainly use `Client side load balanceing`.
 ```
--
-Producer A - Instance 1							Producer A - Instance 2
-				|			                               |
-				|--------Eureka Server---------------|
-							          |
-							    Load Balancer
-							          |
 
--							      Consumer
+		Producer A - Instance 1					Producer A - Instance 2
+				|			                               |
+				|-------------------Eureka Server----------------------|
+							|
+						    Load Balancer
+							|
+						     Consumer
 ```
 - there are 2 ways
   1. LoadBalancer RestTemplete
